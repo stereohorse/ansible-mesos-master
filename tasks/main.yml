@@ -1,0 +1,14 @@
+- name: set zookeeper for mesos
+  copy: dest=/etc/mesos/zk content="zk://{{ ansible_hostname }}:2181/mesos"
+
+- name: set mesos hostname
+  copy: dest=/etc/mesos-master/hostname content="{{ ansible_hostname }}"
+
+- name: set mesos ip
+  copy: dest=/etc/mesos-master/ip content="{{ ansible_eth1.ipv4.address }}"
+
+- name: set mesos quorum size
+  copy: dest=/etc/mesos-master/quorum content=1
+
+- name: start mesos master
+  service: name=mesos-master state=restarted enabled=yes
